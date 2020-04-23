@@ -1,1 +1,1 @@
-# Some frequently used tools for cellular data processing
+# Some frequently used functions for cellular data processing
