@@ -11,45 +11,48 @@ from scipy import stats
 
 
 def mape_cal(pred, score):
-    '''
+    """
     regression task evaluation
     :param pred:
     :param score:
     :return:
-    '''
+    """
     mape=[]
     for i, j in zip(pred,score):
         if j != 0:
             mape.append(100 * abs(i - j) / j)  
     return sum(mape) / len(mape)
     
+    
 def wifi_time_2_sec(time_str):
-    '''
+    """
     :param time_str: 2017-03-06T11:28:26.000Z
     :return: seconds of a time string
-    '''
+    """
     times = time_str.split('T')[1].split('.')[0].split(':')
     return (3600 * int(times[0]) + 60 * int(times[1]) + int(times[2]))
 
 
 def time_2_sec_T(time_str):
-    '''
+    """
     :param time_str: 2017-03-06T11:28:26.000Z
     :return: seconds of a time string
-    '''
+    """
     times = time_str.split('T')[1].split('.')[0].split(':')
     return (3600 * int(times[0]) + 60 * int(times[1]) + int(times[2]))
 
+
 def time_2_sec(time_str):
-    '''
+    """
     :param time_str: 20170306222829\n
     :return: seconds of a time string
-    '''
+    """
     tmp = time_str.split('\n')[0]
     return (int(tmp[-2:]) + int(tmp[-4:-2]) * 60 + int(tmp[-6:-4]) * 3600)
 
+
 def contain_zh(x,y, minx, miny, xstep, ystep):
-    '''
+    """
     :param x: lng
     :param y: lat
     :param minx: min lng
@@ -57,17 +60,18 @@ def contain_zh(x,y, minx, miny, xstep, ystep):
     :param xstep: step of lngs
     :param ystep: step of lats
     :return: grid index of coords
-    '''
+    """
     (x_, y_) = (int((x - minx) / xstep), int((y - miny) / ystep))
     return (x_, y_)
 
+
 def contain(x, y, ps):
-    '''
+    """
     :param x: lng
     :param y: lat
     :param ps: a closed list of coords vector
     :return: point in the polygon or not
-    '''
+    """
     result = False#-1 means not in the polygon
     j = len(ps)-1
 
@@ -79,11 +83,12 @@ def contain(x, y, ps):
             i += 1
     return result
 
+
 def contain_poly(x, y, ps):
-    '''
+    """
     a better version of contain
     :return: point in the polygon or not
-    '''
+    """
     from shapely.geometry import Point
     from shapely.geometry.polygon import Polygon
     poly_ = Polygon(ps)
@@ -210,13 +215,14 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
 
     return texts
 
+
 def cdf_draw(val_list, cut_val=None):
-    '''
+    """
     used to calculate cdf values of some value list
     :param val_list: value list
     :param cut_val: cut the data by some x-axis threshold
     :return: xvals, yvals for ploting cdf
-    '''
+    """
     if cut_val == None:
         thold = max(val_list)
     else:
@@ -235,8 +241,11 @@ def cdf_draw(val_list, cut_val=None):
     print ("Percentage of remaining data over all data: ", 100 * sum(temp_dict.values())/len(val_list))
     return xvals, yvals
 
+
 def heatmap_data_format(xvals, yvals, xdim=50, ydim=50):
-    # TODO: format data for heatmap
+    """
+    # format data for heatmap
+    """
     max_xval = max(xvals); min_xval = min(xvals)
     max_yval = max(yvals); min_yval = min(yvals)
     mat_ = np.zeros((ydim, xdim))
@@ -251,11 +260,11 @@ def heatmap_data_format(xvals, yvals, xdim=50, ydim=50):
 
 
 def data_dist(val_list):
-    '''
+    """
     return distribution of values
     :param val_list: value list
     :return: dict with val, %
-    '''
+    """
     val_count = collections.defaultdict(int)
     for val in val_list:
         val_count[val] += 1
@@ -266,8 +275,11 @@ def data_dist(val_list):
     # print (list(val_dist.keys()))
     return val_dist
 
+
 def error_bar_draw(list_, num=1):
-    # TODO: return params for error bar plot, every num
+    """
+    # return params for error bar plot, every num
+    """
     xvals = np.arange(0, len(list_), num)
     yvals = [sum(list_[i:i + num])/num for i in range(0, len(list_), num)]
     xerr_ = 0
@@ -278,7 +290,9 @@ def error_bar_draw(list_, num=1):
 
 
 def entropy_cal(obj):
-    # TODO: calculate entropy
+    """
+    # Calculate entropy
+    """
     prob_ = []
     if type(obj) == list: # a list of repetitive values 
         count_dict = collections.Counter(obj)
@@ -293,8 +307,10 @@ def entropy_cal(obj):
     
 
 def rg_cal(raw_trace):
-    # TODO: calculate radius of gyration
+    """
+    # Calculate radius of gyration
     # input: list of traces, a trace: list of coordinates [lng, lat]
+    """
     traces = [raw_trace]
     lon_sum = 0
     lat_sum = 0
